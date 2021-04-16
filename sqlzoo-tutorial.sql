@@ -90,7 +90,8 @@ SELECT name, REPLACE(capital, name, '') AS Extension
   FROM world
  WHERE length(name) != length(capital) AND capital LIKE concat('%', name, '%');
 
- -- SELECT 
+ 
+ -- SELECT from WORLD Tutorial
  ---------------------------------------
 -- 1. Introduction
  SELECT name, continent, population FROM world;
@@ -154,3 +155,183 @@ WHERE name <> capital AND LEFT(name,1) = LEFT(capital,1);
 SELECT name
    FROM world
 WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE '%i%' AND name LIKE '%o%' AND name LIKE '%u%';
+
+
+-- SELECT from Nobel Tutorial
+-------------------------------------------
+-- 1. Winners from 1950
+SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950
+
+-- 2. 1962 Literature
+SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'Literature';
+
+-- 3. Albert Einstein
+SELECT yr, subject
+  FROM nobel
+  WHERE winner = 'Albert Einstein';
+
+-- 4.Recent Peace Prizes
+SELECT winner
+  FROM nobel
+  WHERE subject = 'Peace' and yr >= 2000;
+
+-- 5.Literature in the "1980's"
+SELECT *
+  FROM nobel
+  WHERE subject = 'Literature' AND yr BETWEEN 1980 AND 1989;
+
+-- 6. Only Presidents
+SELECT *
+  FROM nobel
+  WHERE winner IN ('Theodore Roosevelt',
+                  'Woodrow Wilson',
+                  'Jimmy Carter',
+                  'Barack Obama');
+-- 7. John
+SELECT winner
+  FROM nobel
+  WHERE winner LIKE 'John%';
+
+-- 8. Chemistry and Physics from different years
+SELECT *
+  FROM nobel
+  WHERE (subject = 'Physics' AND yr = 1980) OR (subject = 'Chemistry' AND yr = 1984);
+
+-- 9. Exclude Chemists and Medics
+SELECT *
+  FROM nobel
+  WHERE yr = 1980 AND NOT subject = 'Chemistry' AND NOT subject = 'Medicine';
+
+-- 10. Early Medicine, Late Literature
+SELECT *
+  FROM nobel
+  WHERE (subject = 'Medicine' AND yr < 1910) OR (subject = 'Literature' AND yr >= 2004);
+
+-- 11. Umlaut
+SELECT *
+  FROM nobel
+  WHERE winner LIKE 'PETER G%';
+
+-- 12. Apostrophe
+SELECT *
+  FROM nobel
+  WHERE winner LIKE 'EUGENE O%';
+
+-- 13. Knights of the realm
+SELECT winner, yr, subject
+  FROM nobel
+  WHERE winner LIKE 'Sir%'
+ORDER BY yr DESC;
+
+-- 14. Chemistry and Physics last
+SELECT winner, subject
+  FROM nobel
+ WHERE yr=1984
+ ORDER BY subject IN ('Physics', 'Chemistry'), subject, winner ASC;
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
