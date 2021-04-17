@@ -334,7 +334,6 @@ SELECT continent FROM world GROUP BY continent HAVING SUM(population) >= 1000000
 
 -- JOIN and UEFA EURO 2012
 ------------------------------------------------------
-
 -- 1. Modify it to show the matchid and player name for all goals scored by Germany. To identify German players, check for: teamid = 'GER'
 SELECT matchid, player FROM goal 
   WHERE teamid = 'Ger'
@@ -401,55 +400,61 @@ SELECT matchid, mdate, COUNT(player)
   GROUP BY matchid, mdate;
 
 -- 13. List every match with the goals scored by each team as shown. This will use "CASE WHEN" which has not been explained in any previous exercises.
+SELECT mdate,
+  team1,
+  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) AS score1,
+  team2,
+  SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) AS score2
+  FROM game JOIN goal ON matchid = id
+  GROUP BY mdate, team1, team2
 
 
-
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-11.
-12.
-13.
-14.
-15.
-
-
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-11.
-12.
-13.
-14.
-15.
+-- 1.
+-- 2.
+-- 3.
+-- 4.
+-- 5.
+-- 6.
+-- 7.
+-- 8.
+-- 9.
+-- 10.
+-- 11.
+-- 12.
+-- 13.
+-- 14.
+-- 15.
 
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-11.
-12.
-13.
-14.
-15.
+-- 1.
+-- 2.
+-- 3.
+-- 4.
+-- 5.
+-- 6.
+-- 7.
+-- 8.
+-- 9.
+-- 10.
+-- 11.
+-- 12.
+-- 13.
+-- 14.
+-- 15.
+
+
+-- 1.
+-- 2.
+-- 3.
+-- 4.
+-- 5.
+-- 6.
+-- 7.
+-- 8.
+-- 9.
+-- 10.
+-- 11.
+-- 12.
+-- 13.
+-- 14.
+-- 15.
