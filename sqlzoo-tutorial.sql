@@ -93,65 +93,65 @@ SELECT name, REPLACE(capital, name, '') AS Extension
  
  -- SELECT from WORLD Tutorial
  ---------------------------------------
--- 1. Introduction
+-- 1.  Observe the result of running this SQL command to show the name, continent and population of all countries.
  SELECT name, continent, population FROM world;
 
--- 2. Large Countries
+-- 2.Show the name for the countries that have a population of at least 200 million. 200 million is 200000000, there are eight zeros.
 SELECT name
   FROM world
  WHERE population > 200000000;
 
--- 3. Per capita GDP
+-- 3. Give the name and the per capita GDP for those countries with a population of at least 200 million.
 SELECT name, gdp/population
 FROM world
 WHERE population >= 200000000;
 
--- 4. South America In millions
+-- 4. Show the name and population in millions for the countries of the continent 'South America'. Divide the population by 1000000 to get population in millions.
 SELECT name, population/1000000
 FROM world
 WHERE continent LIKE 'South America';
 
--- 5. France, Germany, Italy
+-- 5. Show the name and population for France, Germany, Italy
 SELECT name, population
 FROM world
 WHERE name in ('France', 'Germany', 'Italy');
 
--- 6. United
+-- 6. Show the countries which have a name that includes the word 'United'
 SELECT name
 FROM world
 WHERE name LIKE '%United%';
 
--- 7. Two ways to be big
+-- 7. Show the countries that are big by area or big by population. Show name, population and area.
 SELECT name, population, area
 FROM world
 WHERE area > 3000000 OR population > 250000000;
 
--- 8. One or the other (but not both)
+-- 8. Exclusive OR (XOR). Show the countries that are big by area (more than 3 million) or big by population (more than 250 million) but not both. Show name, population and area.
 SELECT name, population, area
 FROM world
 WHERE area > 3000000 XOR population > 250000000;
 
--- 9. Rounding
+-- 9. For South America show population in millions and GDP in billions both to 2 decimal places.
 SELECT name, ROUND(population/1000000, 2), ROUND(gdp/1000000000, 2)
 FROM world
 WHERE continent = 'South America';
 
--- 10. Trillion dollar economies
+-- 10. Show per-capita GDP for the trillion dollar countries to the nearest $1000.
 SELECT name, ROUND(gdp/population, -3)
 FROM world
 WHERE gdp > 1000000000000;
 
--- 11. Name and capital have the same length
+-- 11. Show the name and capital where the name and the capital have the same number of characters.
 SELECT name, capital
   FROM world
  WHERE LENGTH(name) = LENGTH(capital);
 
--- 12. Matching name and capital
+-- 12. Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word.
 SELECT name, capital
 FROM world
 WHERE name <> capital AND LEFT(name,1) = LEFT(capital,1);
 
--- 13. All the vowels
+-- 13. Find the country that has all the vowels and no spaces in its name.
 SELECT name
    FROM world
 WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE '%i%' AND name LIKE '%o%' AND name LIKE '%u%';
@@ -159,76 +159,76 @@ WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE 
 
 -- SELECT from Nobel Tutorial
 -------------------------------------------
--- 1. Winners from 1950
+-- 1. Change the query shown so that it displays Nobel prizes for 1950.
 SELECT yr, subject, winner
   FROM nobel
  WHERE yr = 1950
 
--- 2. 1962 Literature
+-- 2. Show who won the 1962 prize for Literature.
 SELECT winner
   FROM nobel
  WHERE yr = 1962
    AND subject = 'Literature';
 
--- 3. Albert Einstein
+-- 3. Show the year and subject that won 'Albert Einstein' his prize.
 SELECT yr, subject
   FROM nobel
   WHERE winner = 'Albert Einstein';
 
--- 4.Recent Peace Prizes
+-- 4. Give the name of the 'Peace' winners since the year 2000, including 2000.
 SELECT winner
   FROM nobel
   WHERE subject = 'Peace' and yr >= 2000;
 
--- 5.Literature in the "1980's"
+-- 5. Show all details (yr, subject, winner) of the Literature prize winners for 1980 to 1989 inclusive.
 SELECT *
   FROM nobel
   WHERE subject = 'Literature' AND yr BETWEEN 1980 AND 1989;
 
--- 6. Only Presidents
+-- 6. Show all details of the presidential winners:
 SELECT *
   FROM nobel
   WHERE winner IN ('Theodore Roosevelt',
                   'Woodrow Wilson',
                   'Jimmy Carter',
                   'Barack Obama');
--- 7. John
+-- 7. Show the winners with first name John
 SELECT winner
   FROM nobel
   WHERE winner LIKE 'John%';
 
--- 8. Chemistry and Physics from different years
+-- 8. Show the year, subject, and name of Physics winners for 1980 together with the Chemistry winners for 1984.
 SELECT *
   FROM nobel
   WHERE (subject = 'Physics' AND yr = 1980) OR (subject = 'Chemistry' AND yr = 1984);
 
--- 9. Exclude Chemists and Medics
+-- 9. Show the year, subject, and name of winners for 1980 excluding Chemistry and Medicine
 SELECT *
   FROM nobel
   WHERE yr = 1980 AND NOT subject = 'Chemistry' AND NOT subject = 'Medicine';
 
--- 10. Early Medicine, Late Literature
+-- 10. Show year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) together with winners of a 'Literature' prize in a later year (after 2004, including 2004)
 SELECT *
   FROM nobel
   WHERE (subject = 'Medicine' AND yr < 1910) OR (subject = 'Literature' AND yr >= 2004);
 
--- 11. Umlaut
+-- 11. Find all details of the prize won by PETER GRÜNBERG
 SELECT *
   FROM nobel
   WHERE winner LIKE 'PETER G%';
 
--- 12. Apostrophe
+-- 12. Find all details of the prize won by EUGENE O'NEILL
 SELECT *
   FROM nobel
-  WHERE winner LIKE 'EUGENE O%';
+  WHERE winner = 'EUGENE O''NEILL';
 
--- 13. Knights of the realm
+-- 13. List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order.
 SELECT winner, yr, subject
   FROM nobel
   WHERE winner LIKE 'Sir%'
 ORDER BY yr DESC;
 
--- 14. Chemistry and Physics last
+-- 14. Show the 1984 winners and subject ordered by subject and winner name; but list Chemistry and Physics last.
 SELECT winner, subject
   FROM nobel
  WHERE yr=1984
@@ -304,21 +304,33 @@ SELECT name, continent FROM world x
     (SELECT population * 3 FROM world y
         WHERE y.continent=x.continent AND x.name <> y.name);
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-11.
-12.
-13.
-14.
-15.
+
+-- SUM and COUNT
+----------------------------------------------------
+-- 1. Show the total population of the world.
+SELECT SUM(population) FROM world
+
+-- 2. List all the continents - just once each.
+SELECT DISTINCT Continent FROM world;
+
+-- 3. Give the total GDP of Africa
+SELECT SUM(gdp) AS African_gdp FROM world where continent = 'Africa'
+
+-- 4. How many countries have an area of at least 1000000
+SELECT count(name) from world WHERE Area >= 1000000 
+
+-- 5. What is the total population of ('Estonia', 'Latvia', 'Lithuania')
+SELECT SUM(population) FROM world WHERE name IN ('Estonia', 'Latvia', 'Lithuania')
+
+-- 6. For each continent show the continent and number of countries.
+SELECT continent, COUNT(name) FROM world GROUP BY continent
+
+-- 7. For each continent show the continent and number of countries with populations of at least 10 million.
+SELECT continent, COUNT(name) FROM world WHERE population >= 10000000 GROUP BY continent
+
+-- 8. List the continents that have a total population of at least 100 million.
+SELECT continent FROM world GROUP BY continent HAVING SUM(population) >= 100000000
+
 
 
 1.
