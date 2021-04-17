@@ -408,6 +408,136 @@ SELECT mdate,
   FROM game JOIN goal ON matchid = id
   GROUP BY mdate, team1, team2
 
+-- More JOIN operations
+-----------------------------------------------------------
+-- 1. List the films where the yr is 1962 [Show id, title]
+SELECT id, title
+ FROM movie
+ WHERE yr=1962
+
+
+-- 2. Give year of 'Citizen Kane'.
+SELECT yr FROM movie WHERE title = 'Citizen Kane'
+
+
+-- 3. List all of the Star Trek movies, include the id, title and yr (all of these movies include the words Star Trek in the title). Order results by year
+SELECT id, title, yr FROM movie WHERE title LIKE 'Star Trek%' ORDER BY yr
+
+-- 4. What id number does the actor 'Glenn Close' have?
+SELECT id FROM actor WHERE name = 'Glenn Close';
+
+-- 5. What is the id of the film 'Casablanca'
+SELECT id FROM movie WHERE title = 'Casablanca';
+-- 6. Obtain the cast list for 'Casablanca'.
+SELECT name FROM actor JOIN casting ON id = actorid WHERE  movieid = 11768;
+
+-- 7. Obtain the cast list for the film 'Alien'
+SELECT name FROM casting
+JOIN actor ON actor.id = actorid
+JOIN movie ON  movieid = movie.id WHERE title = 'Alien';
+
+-- 8. List the films in which 'Harrison Ford' has appeared
+SELECT title FROM casting
+  JOIN actor ON actor.id = actorid
+  JOIN movie ON  movieid = movie.id
+    WHERE name = 'Harrison Ford';
+
+-- 9. List the films where 'Harrison Ford' has appeared - but not in the starring role. 
+SELECT title FROM casting
+  JOIN actor ON actor.id = actorid
+  JOIN movie ON  movieid = movie.id
+    WHERE name = 'Harrison Ford' AND ord <> 1;
+
+-- 10. List the films together with the leading star for all 1962 films.
+SELECT title, name FROM casting
+JOIN actor ON actor.id = actorid
+JOIN movie ON  movieid = movie.id WHERE yr = 1962 AND ord = 1;
+
+-- 11. Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+SELECT yr,COUNT(title) FROM movie
+  JOIN casting ON movie.id=movieid
+  JOIN actor   ON actorid=actor.id
+    WHERE name='Rock Hudson'
+      GROUP BY yr HAVING COUNT(title) > 2
+
+-- 12. List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+SELECT title, name FROM casting
+  JOIN actor ON (actor.id = actorid)
+  JOIN movie ON (movie.id = movieid)
+    WHERE movieid IN (SELECT movieid FROM casting
+      WHERE actorid = 179) AND casting.ord = 1
+       ORDER BY title; -- toughest challenge
+
+-- 13. Obtain a list, in alphabetical order, of actors who've had at least 15 starring roles.
+SELECT name staring from casting
+  JOIN actor ON (actor.id = actorid AND casting.ord = 1)
+  JOIN movie ON (movie.id = movieid)
+    GROUP BY name HAVING COUNT(ord) >= 15
+      ORDER BY name
+     
+-- 14. List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+SELECT title, COUNT(actorid) FROM casting
+  JOIN actor ON (actor.id = actorid)
+  JOIN movie ON (movie.id = movieid)
+    WHERE yr = 1978
+     GROUP BY title
+       ORDER BY COUNT(actorid) DESC, title ASC
+
+-- 15. List all the people who have worked with 'Art Garfunkel'.
+
+
+
+-- Using Null
+-----------------------------------------------
+
+-- 1. List the teachers who have NULL for their department.
+SELECT name FROM teacher WHERE dept IS NULL
+
+-- 2. Note the INNER JOIN misses the teachers with no department and the departments with no teacher.
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id) 
+
+-- 3. Use a different JOIN so that all teachers are listed.
+SELECT teacher.name, dept.name
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+
+-- 4. Use a different JOIN so that all departments are listed.
+SELECT teacher.name, dept.name
+ FROM teacher RIGHT JOIN dept
+           ON (teacher.dept=dept.id)
+
+-- 5. Use COALESCE to print the mobile number. Use the number '07986 444 2266' if there is no number given. Show teacher name and mobile number or '07986 444 2266'
+select teacher.name, coalesce(mobile, '07986 444 2266') from teacher
+
+-- 6. Use the COALESCE function and a LEFT JOIN to print the teacher name and department name. Use the string 'None' where there is no department
+select teacher.name, coalesce(dept.name, 'None') from teacher left join dept on (teacher.dept = dept.id)
+
+
+-- 7. Use COUNT to show the number of teachers and the number of mobile phones.
+select count(teacher.id), count(mobile) from teacher
+
+-- 8. Use COUNT and GROUP BY dept.name to show each department and the number of staff. Use a RIGHT JOIN to ensure that the Engineering department is listed.
+select dept.name, count(teacher.dept) from teacher right join dept on (teacher.dept = dept.id) group by dept.name
+
+-- 9. Use CASE to show the name of each teacher followed by 'Sci' if the teacher is in dept 1 or 2 and 'Art' otherwise.
+SELECT teacher.name,
+CASE
+WHEN teacher.dept IN (1,2)
+  THEN 'Sci'
+  ELSE 'Art'
+END AS dept FROM teacher
+
+-- 10. Use CASE to show the name of each teacher followed by 'Sci' if the teacher is in dept 1 or 2, show 'Art' if the teacher's dept is 3 and 'None' otherwise.
+SELECT teacher.name,
+CASE
+WHEN teacher.dept IN (1,2) THEN 'Sci'
+WHEN teacher.dept IN (3) THEN 'Art'
+ELSE 'None'
+END AS dept FROM teacher
+
+
 
 -- 1.
 -- 2.
