@@ -551,7 +551,7 @@ SELECT A_STRONGLY_AGREE
 SELECT institution, subject
   FROM nss
  WHERE question='Q15'
-   AND score >= 100
+   AND score >= 100;
 
 -- 3. Show the institution and score where the score for '(8) Computer Science' is less than 50 for question 'Q15'
 SELECT institution,score
@@ -588,31 +588,33 @@ ORDER BY institution;
 
 -- 8. Show the institution, the total sample size and the number of computing students for institutions in Manchester for 'Q01'.
 
--- 9.
--- 10.
--- 11.
--- 12.
--- 13.
--- 14.
--- 15.
 
+-- Window functions
+--------------------------------------------
+-- 1. Show the lastName, party and votes for the constituency 'S14000024' in 2017.
+SELECT lastName, party, votes
+  FROM ge
+ WHERE constituency = 'S14000024' AND yr = 2017
+ORDER BY votes DESC;
 
--- 1.
--- 2.
--- 3.
--- 4.
--- 5.
--- 6.
--- 7.
--- 8.
--- 9.
--- 10.
--- 11.
--- 12.
--- 13.
--- 14.
--- 15.
+-- 2. Show the party and RANK for constituency S14000024 in 2017. List the output by party
+SELECT party, votes,
+       RANK() OVER (ORDER BY votes DESC) as posn
+  FROM ge
+ WHERE constituency = 'S14000024' AND yr = 2017
+ORDER BY party;
 
+-- 3. Use PARTITION to show the ranking of each party in S14000021 in each year. Include yr, party, votes and ranking (the party with the most votes is 1).
+SELECT yr,party, votes,
+      RANK() OVER (PARTITION BY yr ORDER BY votes DESC) as posn
+  FROM ge
+ WHERE constituency = 'S14000021'
+ORDER BY party,yr;
+
+-- 4. Use PARTITION BY constituency to show the ranking of each party in Edinburgh in 2017. Order your results so the winners are shown first, then ordered by constituency.
+
+-- 5. Show the parties that won for each Edinburgh constituency in 2017.
+-- 6. Show how many seats for each party in Scotland in 2017.
 
 -- 1.
 -- 2.
